@@ -19,6 +19,9 @@ class Room(models.Model):
     updated = models.DateTimeField(auto_now=True) #updates each time an item is updated
     created = models.DateTimeField(auto_now_add=True) #runs ONLY once when an item is created in DB
 
+    class Meta:
+        ordering = ['-updated', '-created'] # '-' enables order by descending order(new first)
+
     def __str__(self):
         return self.name
 
