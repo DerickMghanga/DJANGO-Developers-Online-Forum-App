@@ -21,3 +21,8 @@ def room(request, pk):  #Dynamic route in Python
     context = {'room': room}
     
     return render(request, 'base/room.html', context)
+
+
+def createRoom(request):
+    context = {}
+    return render(request, 'base/room_form.html', context)
