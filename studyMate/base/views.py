@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q # enables use of AND('&') or OR('|') in db queries
 from django.http import HttpResponse
 from .models import Room, Topic
 from .forms import RoomForm
@@ -13,10 +14,11 @@ from .forms import RoomForm
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else '' # query value from the url after selecting a topic(Browse Topics)
-    rooms = Room.objects.filter(topic__name__icontains=q) #filter upwards from topic attribute to Topic Model. topic name atleast contains whats in the query
+    rooms = Room.objects.filter(Q(topic__name__icontains=q) | Q(name__icontains=q) | Q(description__icontains=q)) #filter upwards from topic attribute to Topic Model. topic name atleast contains whats in the query
     topics = Topic.objects.all()
+    rooms_count = rooms.count() #gets length of a queryset also you can use>> len(rooms) basic python
 
-    context = {'rooms': rooms, 'topics': topics}
+    context = {'rooms': rooms, 'topics': topics, 'rooms_count':rooms_count}
     return render(request, 'base/home.html', context)
 
 
