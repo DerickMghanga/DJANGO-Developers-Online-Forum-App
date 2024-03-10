@@ -34,11 +34,10 @@ def createRoom(request):
         #print(request.POST)
         form = RoomForm(request.POST) #process the data submitted in the form
         if form.is_valid():
-            form.save()   #saves the data in the db
+            form.save() #saves the data in the db
             return redirect('home')
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
-
 
 
 def updateRoom(request, pk):
@@ -50,7 +49,6 @@ def updateRoom(request, pk):
         if form.is_valid():
             form.save()
             return redirect('home')
-
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
 
