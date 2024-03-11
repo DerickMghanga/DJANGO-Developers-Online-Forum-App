@@ -9,6 +9,15 @@
 <body>
     {% include 'navbar.html' %}
 
+    <!-- FLASH MESSAGES INCASE OF AN ERROR OR SUCCESS -->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     {% block content %}
 
     

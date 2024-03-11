@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q # enables use of AND('&') or OR('|') in db queries
+from django.contrib.auth.models import User #built-in db table Django Framework
+from django.contrib import messages  #django flash messages
 from django.http import HttpResponse
 from .models import Room, Topic
 from .forms import RoomForm
@@ -11,6 +13,22 @@ from .forms import RoomForm
 #     {'id':2, 'name':'Design with me'},
 #     {'id':3, 'name':'Front-End Developers'},
 # ]
+
+
+# User Login functionality in Django from scratch
+def loginPage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        #check if user exists in users table
+        try:
+            user = User.objects.get(username=username)
+        except:
+            messages.error(request, "User does not exist!")
+
+    context = {}
+    return render(request, 'base/login_register.html', context)
+
 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else '' # query value from the url after selecting a topic(Browse Topics)
