@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q # enables use of AND('&') or OR('|') in db queries
-from django.contrib.auth.models import User #built-in db table Django Framework
-from django.contrib import messages  #django flash messages
-from django.contrib.auth import authenticate, login, logout  #in-built in Django
+from django.contrib.auth.models import User # built-in db table Django Framework
+from django.contrib import messages  # django flash messages
+from django.contrib.auth.decorators import login_required  # restrict specific pages
+from django.contrib.auth import authenticate, login, logout  # in-built in Django
 from django.http import HttpResponse
 from .models import Room, Topic
 from .forms import RoomForm
@@ -62,6 +63,7 @@ def room(request, pk):  #Dynamic route in Python
     return render(request, 'base/room.html', context)
 
 
+@login_required(login_url='/login') # redirects to user if not logged in
 def createRoom(request):
     form = RoomForm()
     if request.method == 'POST':
@@ -74,6 +76,7 @@ def createRoom(request):
     return render(request, 'base/room_form.html', context)
 
 
+@login_required(login_url='/login')
 def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room) #pre-fills the initial data before editing
@@ -87,6 +90,7 @@ def updateRoom(request, pk):
     return render(request, 'base/room_form.html', context)
 
 
+@login_required(login_url='/login')
 def deleteRoom(request, pk):
     room = Room.objects.get(id=pk)
     #delete the room after user accepts to delete
