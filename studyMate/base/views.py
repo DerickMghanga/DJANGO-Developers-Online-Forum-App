@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.db.models import Q # enables use of AND('&') or OR('|') in db queries
 from django.contrib.auth.models import User #built-in db table Django Framework
 from django.contrib import messages  #django flash messages
+from django.contrib.auth import authenticate, login, logout  #in-built in Django
 from django.http import HttpResponse
 from .models import Room, Topic
 from .forms import RoomForm
@@ -20,14 +21,29 @@ def loginPage(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        #check if user exists in users table
+        # check if user exists in users table
         try:
             user = User.objects.get(username=username)
         except:
             messages.error(request, "User does not exist!")
+        
+         # authentication in Django >> check if the user credentials are correct
+        user = authenticate(request, username=username, password=password) 
+
+        if user is not None:
+            login(request, user)  # adds session to the DB and returns session ID to client
+            return redirect('home')
+        else:
+             messages.error(request, "Username OR Password is Incorrect!")
 
     context = {}
     return render(request, 'base/login_register.html', context)
+
+
+# Django Log-Out
+def logOutUser(request):
+    logout(request)  #delete token in client
+    return redirect('home')
 
 
 def home(request):
