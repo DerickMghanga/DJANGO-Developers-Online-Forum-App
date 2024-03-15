@@ -4,6 +4,7 @@ from django.contrib.auth.models import User # built-in db table Django Framework
 from django.contrib import messages  # django flash messages
 from django.contrib.auth.decorators import login_required  # restrict specific pages
 from django.contrib.auth import authenticate, login, logout  # in-built in Django
+from django.contrib.auth.forms import UserCreationForm #in-built to help create new Users
 from django.http import HttpResponse
 from .models import Room, Topic
 from .forms import RoomForm
@@ -52,9 +53,8 @@ def logOutUser(request):
 
 # create user account
 def registerPage(request):
-    page = 'register'
-    context = {'page': page}
-    return render(request, 'base/login_register.html', context)
+    form = UserCreationForm()
+    return render(request, 'base/login_register.html', {'form': form})
 
 
 def home(request):
