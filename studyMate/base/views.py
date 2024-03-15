@@ -32,7 +32,7 @@ def loginPage(request):
         user = authenticate(request, username=username, password=password) 
 
         if user is not None:
-            login(request, user)  # adds session to the DB and returns session ID to client
+            login(request, user)  # adds session to the DB and returns session(token) to client
             return redirect('home')
         else:
              messages.error(request, "Username OR Password is Incorrect!")
@@ -80,6 +80,9 @@ def createRoom(request):
 def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room) #pre-fills the initial data before editing
+    # authentication >> only owners of the room can update the room
+    if request.user != room.host:
+        return HttpResponse('You are not allowed to Update this room!!')
     #update the form
     if request.method == 'POST':
         form = RoomForm(request.POST, instance=room)
@@ -93,6 +96,9 @@ def updateRoom(request, pk):
 @login_required(login_url='/login')
 def deleteRoom(request, pk):
     room = Room.objects.get(id=pk)
+    # authentication >> only owners of the room can delete the room
+    if request.user != room.host:
+        return HttpResponse('You are not allowed to Delete this room!!')
     #delete the room after user accepts to delete
     if request.method == 'POST':
         room.delete()
