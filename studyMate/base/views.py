@@ -26,7 +26,7 @@ def loginPage(request):
         return redirect('home')
     
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()  # get the details and set to lowercase
         password = request.POST.get('password')
         # check if user exists in users table
         try:
@@ -51,9 +51,21 @@ def logOutUser(request):
     logout(request)  #delete token in client
     return redirect('home')
 
-# create user account
+# create user account(sign up)
 def registerPage(request):
     form = UserCreationForm()
+    #process data recieved from the form
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)  # access user details before saving to DB
+            user.username == user.username.lower() # set user's username to lowercase
+            user.save()
+            login(request, user) # automatically logs in the user after registration
+            return redirect('home')
+        else:
+            messages.error(request, 'An Error Occured during Registration!')
+
     return render(request, 'base/login_register.html', {'form': form})
 
 
@@ -92,7 +104,7 @@ def updateRoom(request, pk):
     form = RoomForm(instance=room) #pre-fills the initial data before editing
     # authentication >> only owners of the room can update the room
     if request.user != room.host:
-        return HttpResponse('You are not allowed to Update this room!!')
+        return HttpResponse('You are not allowed to Update this room!')
     #update the form
     if request.method == 'POST':
         form = RoomForm(request.POST, instance=room)
@@ -108,7 +120,7 @@ def deleteRoom(request, pk):
     room = Room.objects.get(id=pk)
     # authentication >> only owners of the room can delete the room
     if request.user != room.host:
-        return HttpResponse('You are not allowed to Delete this room!!')
+        return HttpResponse('You are not allowed to Delete this room!')
     #delete the room after user accepts to delete
     if request.method == 'POST':
         room.delete()
