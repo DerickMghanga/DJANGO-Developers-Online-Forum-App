@@ -19,6 +19,10 @@ from .forms import RoomForm
 
 # User Login functionality in Django from scratch
 def loginPage(request):
+    #redirect user to home page if already logged in(can't visit login page)
+    if request.user.is_authenticated:
+        return redirect('home')
+    
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -27,8 +31,7 @@ def loginPage(request):
             user = User.objects.get(username=username)
         except:
             messages.error(request, "User does not exist!")
-        
-         # authentication in Django >> check if the user credentials are correct
+        # authentication in Django >> check if the user credentials are correct
         user = authenticate(request, username=username, password=password) 
 
         if user is not None:
