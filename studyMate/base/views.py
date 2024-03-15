@@ -19,6 +19,7 @@ from .forms import RoomForm
 
 # User Login functionality in Django from scratch
 def loginPage(request):
+    page = 'login'
     #redirect user to home page if already logged in(can't visit login page)
     if request.user.is_authenticated:
         return redirect('home')
@@ -40,7 +41,7 @@ def loginPage(request):
         else:
              messages.error(request, "Username OR Password is Incorrect!")
 
-    context = {}
+    context = {'page': page}
     return render(request, 'base/login_register.html', context)
 
 
@@ -48,6 +49,12 @@ def loginPage(request):
 def logOutUser(request):
     logout(request)  #delete token in client
     return redirect('home')
+
+# create user account
+def registerPage(request):
+    page = 'register'
+    context = {'page': page}
+    return render(request, 'base/login_register.html', context)
 
 
 def home(request):
