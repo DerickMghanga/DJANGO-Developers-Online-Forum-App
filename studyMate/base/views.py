@@ -85,8 +85,11 @@ def room(request, pk):  #Dynamic route in Python
     
     if request.method == 'POST':
         message = Message.objects.create(
-            
+            user = request.user,
+            room = room,
+            body = request.POST.get('body')
         )
+        return redirect('room', pk=room.id) #redirect to the dynamic room page
 
     context = {'room': room, 'room_messages': room_messages}
     return render(request, 'base/room.html', context)
