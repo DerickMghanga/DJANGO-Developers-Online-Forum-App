@@ -90,6 +90,7 @@ def room(request, pk):  #Dynamic route in Python
             room = room,
             body = request.POST.get('body')
         )
+        room.participants.add(request.user) #add the user to participants of the room
         return redirect('room', pk=room.id) #redirect to the dynamic room page
 
     context = {'room': room, 'room_messages': room_messages, 'participants':participants}
