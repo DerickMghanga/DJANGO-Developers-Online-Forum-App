@@ -97,7 +97,7 @@ def room(request, pk):  #Dynamic route in Python
     return render(request, 'base/room.html', context)
 
 
-@login_required(login_url='/login') # redirects to user if not logged in
+@login_required(login_url='/login') # redirects to user to log in if not logged in
 def createRoom(request):
     form = RoomForm()
     if request.method == 'POST':
@@ -138,3 +138,15 @@ def deleteRoom(request, pk):
         room.delete()
         return redirect('home')
     return render(request, 'base/delete.html', {'obj': room})
+
+@login_required(login_url='/login')
+def deleteMessage(request, pk):
+    message = Message.objects.get(id=pk)
+    # authentication >> only owners of the message can delete the message
+    if request.user != message.user:
+        return HttpResponse('You are not allowed to Delete this message!')
+    #delete the message after user accepts to delete
+    if request.method == 'POST':
+        message.delete()
+        return redirect('home')
+    return render(request, 'base/delete.html', {'obj': message})
