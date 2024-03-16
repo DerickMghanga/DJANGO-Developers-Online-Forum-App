@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required  # restrict specific p
 from django.contrib.auth import authenticate, login, logout  # in-built in Django
 from django.contrib.auth.forms import UserCreationForm #in-built to help create new Users
 from django.http import HttpResponse
-from .models import Room, Topic
+from .models import Room, Topic, Message
 from .forms import RoomForm
 
 # Create your views here.
@@ -81,7 +81,14 @@ def home(request):
 
 def room(request, pk):  #Dynamic route in Python
     room = Room.objects.get(id=pk)
-    context = {'room': room}
+    room_messages = room.message_set.all().order_by('-created') #query messages related to the room. "Message" model
+    
+    if request.method == 'POST':
+        message = Message.objects.create(
+            
+        )
+
+    context = {'room': room, 'room_messages': room_messages}
     return render(request, 'base/room.html', context)
 
 
