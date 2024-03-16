@@ -82,6 +82,7 @@ def home(request):
 def room(request, pk):  #Dynamic route in Python
     room = Room.objects.get(id=pk)
     room_messages = room.message_set.all().order_by('-created') #query messages related to the room. "Message" model
+    participants = room.participants.all()  # get all room participants
     
     if request.method == 'POST':
         message = Message.objects.create(
@@ -91,7 +92,7 @@ def room(request, pk):  #Dynamic route in Python
         )
         return redirect('room', pk=room.id) #redirect to the dynamic room page
 
-    context = {'room': room, 'room_messages': room_messages}
+    context = {'room': room, 'room_messages': room_messages, 'participants':participants}
     return render(request, 'base/room.html', context)
 
 

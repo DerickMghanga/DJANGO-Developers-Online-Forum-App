@@ -15,7 +15,7 @@ class Room(models.Model):
     topic=  models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
-    #participants = 
+    participants = models.ManyToManyField(User, related_name='participants',blank=True)  # many to many relationship.
     updated = models.DateTimeField(auto_now=True) #updates each time an item is updated
     created = models.DateTimeField(auto_now_add=True) #runs ONLY once when an item is created in DB
 
