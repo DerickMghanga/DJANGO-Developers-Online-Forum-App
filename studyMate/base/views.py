@@ -74,7 +74,7 @@ def home(request):
     rooms = Room.objects.filter(Q(topic__name__icontains=q) | Q(name__icontains=q) | Q(description__icontains=q)) #filter upwards from topic attribute to Topic Model. topic name atleast contains whats in the query
     topics = Topic.objects.all()
     rooms_count = rooms.count() #gets length of a queryset also you can use>> len(rooms) basic python
-    room_messages = Message.objects.all()  # Recent activity  section >> fetch all messages
+    room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))  # Recent activity  section >> filter all messages according to topic name
 
     context = {'rooms': rooms, 'topics': topics, 'rooms_count':rooms_count, 'room_messages':room_messages}
     return render(request, 'base/home.html', context)
