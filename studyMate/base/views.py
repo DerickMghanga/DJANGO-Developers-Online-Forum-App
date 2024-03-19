@@ -82,7 +82,7 @@ def home(request):
 
 def room(request, pk):  #Dynamic route in Python
     room = Room.objects.get(id=pk)
-    room_messages = room.message_set.all()
+    room_messages = room.message_set.all()  # gets all messages related to this room
     participants = room.participants.all()  # get all room participants
     
     if request.method == 'POST':
