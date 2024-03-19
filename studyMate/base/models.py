@@ -33,5 +33,8 @@ class Message(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True) 
 
+    class Meta:
+        ordering = ['-updated', '-created'] # '-' enables order by descending order(new first)
+
     def __str__(self):
-        return self.body[0:50] # get first 50 characters
+        return self.body[0:50] # get first 50 characters at Recent activity section

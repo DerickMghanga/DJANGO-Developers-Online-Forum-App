@@ -74,14 +74,15 @@ def home(request):
     rooms = Room.objects.filter(Q(topic__name__icontains=q) | Q(name__icontains=q) | Q(description__icontains=q)) #filter upwards from topic attribute to Topic Model. topic name atleast contains whats in the query
     topics = Topic.objects.all()
     rooms_count = rooms.count() #gets length of a queryset also you can use>> len(rooms) basic python
+    room_messages = Message.objects.all()  # Recent activity  section >> fetch all messages
 
-    context = {'rooms': rooms, 'topics': topics, 'rooms_count':rooms_count}
+    context = {'rooms': rooms, 'topics': topics, 'rooms_count':rooms_count, 'room_messages':room_messages}
     return render(request, 'base/home.html', context)
 
 
 def room(request, pk):  #Dynamic route in Python
     room = Room.objects.get(id=pk)
-    room_messages = room.message_set.all().order_by('-created') #query messages related to the room. "Message" model
+    room_messages = room.message_set.all()
     participants = room.participants.all()  # get all room participants
     
     if request.method == 'POST':
@@ -91,7 +92,7 @@ def room(request, pk):  #Dynamic route in Python
             body = request.POST.get('body')
         )
         room.participants.add(request.user) #add the user to participants of the room
-        return redirect('room', pk=room.id) #redirect to the dynamic room page
+        return redirect('room', pk=room.id) #redirect to the dynamic room page(reload page)
 
     context = {'room': room, 'room_messages': room_messages, 'participants':participants}
     return render(request, 'base/room.html', context)
