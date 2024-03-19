@@ -97,6 +97,13 @@ def room(request, pk):  #Dynamic route in Python
     context = {'room': room, 'room_messages': room_messages, 'participants':participants}
     return render(request, 'base/room.html', context)
 
+# profile page of a user
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    rooms = user.room_set.all()  # fetch all rooms related to the user
+    context = {'user': user, 'rooms':rooms}
+    return render(request, 'base/profile.html', context)
+
 
 @login_required(login_url='/login') # redirects to user to log in if not logged in
 def createRoom(request):

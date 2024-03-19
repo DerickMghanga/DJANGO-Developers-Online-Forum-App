@@ -3,7 +3,7 @@
 <hr />
 {% for message in room_messages %}
 <div>
-  <small>@{{message.user}} {{message.created|timesince}}</small>
+  <small>@{{message.user}}   {{message.created|timesince}}</small>
   <small>Replied to "{{message.room}}"</small>
 
   <!-- Display only first 50 chcaracters using Message model >> (__str__.self) -->
