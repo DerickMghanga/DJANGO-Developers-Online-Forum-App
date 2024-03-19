@@ -101,7 +101,9 @@ def room(request, pk):  #Dynamic route in Python
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
     rooms = user.room_set.all()  # fetch all rooms related to the user
-    context = {'user': user, 'rooms':rooms}
+    room_messages = user.message_set.all()  # fetch all messages related to the user
+    topics = Topic.objects.all()  # all topics
+    context = {'user': user, 'rooms':rooms, 'topics':topics, 'room_messages':room_messages}
     return render(request, 'base/profile.html', context)
 
 
