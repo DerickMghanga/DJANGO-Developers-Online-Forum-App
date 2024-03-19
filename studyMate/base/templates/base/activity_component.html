@@ -1,0 +1,18 @@
+<!-- DYNAMIC ACTIVITY SECTION -->
+<h3>Recent Activity</h3>
+<hr />
+{% for message in room_messages %}
+<div>
+  <small>@{{message.user}} {{message.created|timesince}}</small>
+  <small>Replied to "{{message.room}}"</small>
+
+  <!-- Display only first 50 chcaracters using Message model >> (__str__.self) -->
+  <p>{{message}}</p>
+
+  <!-- ONLY OWNER OF THE MESSAGE CAN DELETE THE MESSAGE -->
+  {% if request.user == message.user %}
+  <a href="{% url 'delete-message' message.id %}">Delete</a>
+  {% endif %}
+  <hr />
+</div>
+{% endfor %}
