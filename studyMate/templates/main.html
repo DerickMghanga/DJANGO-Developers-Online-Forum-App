@@ -1,10 +1,13 @@
 <!DOCTYPE html>
+<!-- Let Django know we can use static files -->
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudyMate</title>
-    <!-- <link rel="stylesheet" href="main.css"> -->
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'styles/main.css' %}">
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -17,6 +20,8 @@
         {% endfor %}
     </ul>
     {% endif %}
+
+    <img src="{% static 'images/blue.jpg' %}" alt="">
 
     {% block content %}
     
