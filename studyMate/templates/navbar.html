@@ -25,6 +25,7 @@
         <input name="q" type="text" placeholder="Search for rooms..." />
       </label>
     </form>
+    
     <nav class="header__menu">
       <!-- Logged In -->
       {% if request.user.is_authenticated %}
@@ -49,14 +50,13 @@
         </button>
       </div>
       {% else %}
-
       <!-- Not Logged In -->
       <a href="{% url 'login' %}">
-        <img src="./assets/avatar.svg" />
+        <img src="{% static 'images/avatar.svg' %}"/>
         <p>Login</p>
       </a>
-
       {% endif %}
+
 
       <div class="dropdown-menu">
         <a href="settings.html" class="dropdown-link"
