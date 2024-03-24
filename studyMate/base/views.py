@@ -114,7 +114,9 @@ def createRoom(request):
         #print(request.POST)
         form = RoomForm(request.POST) #process the data submitted in the form
         if form.is_valid():
-            form.save() #saves the data in the db
+            room = form.save(commit=False) # get room data before saving to the db
+            room.host = request.user  # logged in user as host of the created room
+            room.save()
             return redirect('home')
     context = {'form': form}
     return render(request, 'base/room_form.html', context)
