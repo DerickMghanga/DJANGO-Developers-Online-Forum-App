@@ -110,6 +110,7 @@ def userProfile(request, pk):
 @login_required(login_url='/login') # redirects to user to log in if not logged in
 def createRoom(request):
     form = RoomForm()
+    topics = Topic.objects.all()
     if request.method == 'POST':
         #print(request.POST)
         form = RoomForm(request.POST) #process the data submitted in the form
@@ -118,7 +119,7 @@ def createRoom(request):
             room.host = request.user  # logged in user as host of the created room
             room.save()
             return redirect('home')
-    context = {'form': form}
+    context = {'form': form, 'topics': topics}
     return render(request, 'base/room_form.html', context)
 
 
