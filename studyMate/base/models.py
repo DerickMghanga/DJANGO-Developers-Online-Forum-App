@@ -24,6 +24,9 @@ class Room(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def desc(self):
+        return self.description[0:120]  # get first 50 characters of the description attribute
 
     
 class Message(models.Model):
@@ -37,4 +40,4 @@ class Message(models.Model):
         ordering = ['-updated', '-created'] # '-' enables order by descending order(new first)
 
     def __str__(self):
-        return self.body[0:50] # get first 50 characters at Recent activity section
+        return self.body[0:50] # get first 50 characters at Recent activity section(body attribute)

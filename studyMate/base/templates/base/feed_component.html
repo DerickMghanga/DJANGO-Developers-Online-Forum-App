@@ -12,7 +12,7 @@
     </a>
 
     <div class="roomListRoom__actions">
-      <span>{{room.created|timesince}} days ago</span>
+      <span>{{room.created|timesince}} ago</span>
     </div>
 
     <!-- Only owners of the room can see Update and Delete Button -->
@@ -23,7 +23,8 @@
   </div>
   <div class="roomListRoom__content">
     <a href="{% url 'room' room.id %}">{{room.name}}</a>
-    <p>{{room.description}}</p>
+    <!-- ONLY display first 120 characters -->
+    <p>{{room.desc}} ...</p>
   </div>
   <div class="roomListRoom__meta">
     <a href="{% url 'room' room.id %}" class="roomListRoom__joined">
