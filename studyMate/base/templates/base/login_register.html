@@ -18,7 +18,7 @@
         {% csrf_token %}
         <div class="form__group form__group">
           <label for="room_name">Username</label>
-          <input id="username" name="username" type="text" placeholder="e.g. dennis_ivy" />
+          <input id="username" name="username" type="text" placeholder="e.g. derick_mghanga" />
         </div>
         <div class="form__group">
           <label for="password">Password</label>
@@ -63,27 +63,21 @@
   <div class="layout__box">
     <div class="layout__boxHeader">
       <div class="layout__boxTitle">
-        <h3>Sign up</h3>
+        <h3>Register</h3>
       </div>
     </div>
     <div class="layout__body">
-      <h2 class="auth__tagline">Create StudyMate account </h2>
+      <h2 class="auth__tagline">Create a StudyMate account </h2>
 
       <form class="form" action="" method="POST">
         {% csrf_token %}
+
+        {% for field in form %}
         <div class="form__group form__group">
-          <label for="room_name">Username</label>
-          <input id="username" name="username" type="text" placeholder="e.g. dennis_ivy" />
+          <label for="room_name">{{field.label}}</label>
+         {{field}}
         </div>
-        <div class="form__group">
-          <label for="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-          />
-        </div>
+        {% endfor %}
 
         <button class="btn btn--main" type="submit">
           <svg
@@ -102,7 +96,7 @@
             ></path>
           </svg>
 
-          Signup
+          Register
         </button>
       </form>
 
