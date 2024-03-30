@@ -27,11 +27,6 @@
           {% csrf_token %}
 
           <div class="form__group">
-            <label for="room_name">Room Name</label>
-            {{form.name}}
-          </div>
-
-          <div class="form__group">
             <label for="room_topic">Room Topic</label>
             <input required type="text" name="topic" list="topic-list" />
             <!-- DROP-DOWN MENU WHEN A USER CLICKS THE INPUT -->
@@ -42,6 +37,11 @@
                 {% endfor %}
               </select>
             </datalist>
+          </div>
+
+          <div class="form__group">
+            <label for="room_name">Room Name</label>
+            {{form.name}}
           </div>
 
           <div class="form__group">
