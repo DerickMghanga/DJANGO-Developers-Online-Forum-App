@@ -113,7 +113,7 @@ def createRoom(request):
     topics = Topic.objects.all()
     if request.method == 'POST':
         #print(request.POST)
-        topic_name = request.POST.get('topic') # get the topic value from input
+        topic_name = request.POST.get('topic') # get the topic value from input >> name='topic'
         topic, created = Topic.objects.get_or_create(name=topic_name) # get a topic or create it incase it doesn't exist
         Room.objects.create(
             host = request.user,
@@ -146,7 +146,7 @@ def updateRoom(request, pk):
         if form.is_valid():
             form.save()
             return redirect('home')
-    context = {'form': form, 'topics':topics}
+    context = {'form': form, 'topics':topics, 'room':room}
     return render(request, 'base/room_form.html', context)
 
 
