@@ -192,3 +192,7 @@ def updateUser(request):
             form.save()
             return redirect('user-profile', pk=user.id)   # after updating take user back to their profile
     return render(request, 'base/update-user.html', {'form':form})
+
+
+def topicsMobilePage(request):
+    return render(request, 'base/topics.html', {})
