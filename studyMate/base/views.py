@@ -72,7 +72,7 @@ def registerPage(request):
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else '' # query value from the url after selecting a topic(Browse Topics)
     rooms = Room.objects.filter(Q(topic__name__icontains=q) | Q(name__icontains=q) | Q(description__icontains=q)) #filter upwards from topic attribute to Topic Model. topic name atleast contains whats in the query
-    topics = Topic.objects.all()
+    topics = Topic.objects.all()[0:5]  # limit only 5 topics to display
     rooms_count = rooms.count() #gets length of a queryset also you can use>> len(rooms) basic python
     room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))  # Recent activity  section >> filter all messages according to topic name
 
@@ -195,5 +195,6 @@ def updateUser(request):
 
 
 def topicsPage(request):
-    topics = Topic.objects.filter()
+    q = request.GET.get('q') if request.GET.get('q') != None else '' # query value from the url after selecting a topic
+    topics = Topic.objects.filter(name__icontains=q)
     return render(request, 'base/topics.html', {'topics': topics})
