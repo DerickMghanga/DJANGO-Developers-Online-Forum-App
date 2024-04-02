@@ -194,5 +194,6 @@ def updateUser(request):
     return render(request, 'base/update-user.html', {'form':form})
 
 
-def topicsMobilePage(request):
-    return render(request, 'base/topics.html', {})
+def topicsPage(request):
+    topics = Topic.objects.filter()
+    return render(request, 'base/topics.html', {'topics': topics})
