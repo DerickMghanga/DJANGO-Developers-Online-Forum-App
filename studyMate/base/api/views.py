@@ -11,11 +11,18 @@ def getRoute(request):
         'GET /api/rooms',
         'GET /api/room/:id'
     ]
-    return Response(routes) # safe=False allows the routes list to be turned to json.
+    return Response(routes) # return info about all api routes fro the users
 
 @api_view(['GET'])
 def getRooms(request):
     rooms = Room.objects.all()  # returns Python objects that are not serializable
     serializer = RoomSerializer(rooms, many=True)
+    #print(serializer.data)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getRoom(request, pk):
+    room = Room.objects.get(id=pk)  # returns Python objects that are not serializable
+    serializer = RoomSerializer(room, many=False)
     #print(serializer.data)
     return Response(serializer.data)
